@@ -1,5 +1,8 @@
-let bezierArr = [[0,0],[0.5,1],[1,0]] ;
-let bezierPointRecursive = (arr,time) => arr.reduce((t,v,i,a)=>{a[i-1] &&(t.push([(v[0]-a[i-1][0])*time+a[i-1][0],(v[1]-a[i-1][1])*time+a[i-1][1]]));return t},[]).reduce((t,v)=>[(v[0]-t[0])*time+t[0],(v[1]-t[1])*time+t[1]])
+let bezierArr = [[0,0],[0.5,1],[1,0]] ;//[[x1,y1],[x2,y2],...]
+let time = 0.3 // 0-1
+let step = 11 // >0
+
+let bezierPointRecursive = (arr,time) =>arr.length>1?bezierPointRecursive(arr.reduce((t,v,i,a)=>{a[i-1] &&(t.push([(v[0]-a[i-1][0])*time+a[i-1][0],(v[1]-a[i-1][1])*time+a[i-1][1]]));return t},[]),time):(arr[0]||[0,0])
 let getBezierPointArr = (bezierArr,step)=> Array.from({length:step}).map((v,i)=>bezierPointRecursive(bezierArr,1/(step-1)*i))
-bezierPointRecursive(bezierArr,0.3)
-getBezierPointArr(bezierArr,11)
+console.log(bezierPointRecursive(bezierArr,time||0.3))
+getBezierPointArr(bezierArr,step||11)
